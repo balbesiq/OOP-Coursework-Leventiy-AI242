@@ -12,6 +12,7 @@ import ua.opnu.labwork21.repository.BookingRepository;
 import ua.opnu.labwork21.repository.FlightRepository;
 import ua.opnu.labwork21.repository.PassengerRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +44,9 @@ public class BookingService {
         // Business rule 5: booking date must not be null or in the past
         if (request.bookingDate() == null) {
             throw new BadRequestException("Booking date is required");
+        }
+        if(request.bookingDate().isBefore(LocalDateTime.now())){
+            throw new BadRequestException("Booking date cannot be in the past");
         }
 
         // Business rule 3: no duplicate active booking for same passenger+flight
