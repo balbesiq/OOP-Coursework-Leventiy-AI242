@@ -2,8 +2,9 @@ package ua.opnu.labwork21.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "bookings")
@@ -28,12 +29,12 @@ public class Booking {
     // Booking <-> Flight (M:N)
     @ManyToMany
     @JoinTable(
-        name = "booking_flights",
-        joinColumns = @JoinColumn(name = "booking_id"),
-        inverseJoinColumns = @JoinColumn(name = "flight_id")
+            name = "booking_flights",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "flight_id")
     )
-    @JsonIgnore
-    private List<Flight> flights;
+    @JsonIgnoreProperties("bookings")
+    private List<Flight> flights = new ArrayList<>();
 
     public Booking() {}
 
